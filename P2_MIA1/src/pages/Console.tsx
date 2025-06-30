@@ -4,11 +4,38 @@ import './Console.css'; // Archivo de estilos que crearemos después
 const Console = () => {
   const [inputCode, setInputCode] = useState('');
   const [output, setOutput] = useState('Esperando ejecución...\n');
+  const [isLoading, setIsLoading] = useState(false);
 
-  const handleExecute = () => {
-    // Simulación de ejecución de código
-    const newOutput = `> Ejecutando...\n${inputCode}\n> Proceso completado\n`;
-    setOutput(prev => prev + newOutput);
+  const handleExecute = async () => {
+    setIsLoading(true);
+    
+    try {
+      // Enviar el código al backend en el puerto 5000
+      const response = await fetch('http://localhost:5000/execute', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code: inputCode }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error del servidor: ${response.status}`);
+      }
+
+      const result = await response.json();
+      
+      // Actualizar la salida con el resultado del backend
+      const newOutput = `> Ejecutando...\n${inputCode}\n> Resultado:\n${result.output || result.message}\n`;
+      setOutput(prev => prev + newOutput);
+      
+    } catch (error) {
+      console.error('Error al ejecutar el código:', error);
+      const errorOutput = `> Error al ejecutar el código:\n${error.message}\n`;
+      setOutput(prev => prev + errorOutput);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -24,8 +51,12 @@ const Console = () => {
       />
       
       {/* Botón de ejecución */}
-      <button className="execute-button" onClick={handleExecute}>
-        Ejecutar
+      <button 
+        className="execute-button" 
+        onClick={handleExecute}
+        disabled={isLoading}
+      >
+        {isLoading ? 'Ejecutando...' : 'Ejecutar'}
       </button>
       
       {/* Área de salida */}

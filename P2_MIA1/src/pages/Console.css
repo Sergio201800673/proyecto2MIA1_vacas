@@ -3,19 +3,35 @@
   margin: 2rem auto;
   padding: 1rem;
   font-family: 'Courier New', monospace;
+  background-color: #2c3e50;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.console-container h1 {
+  color: #ecf0f1;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 600;
 }
 
 .console-input {
   width: 100%;
   height: 150px;
   padding: 10px;
-  background-color: white;
-  border: 1px solid #ccc;
+  background-color: #34495e;
+  color: #ecf0f1;
+  border: 1px solid #2c3e50;
   border-radius: 4px;
   font-family: 'Courier New', monospace;
   font-size: 14px;
   resize: vertical;
   margin-bottom: 1rem;
+}
+
+.console-input::placeholder {
+  color: #bdc3c7;
 }
 
 .execute-button {
@@ -41,9 +57,9 @@
   width: 100%;
   height: 300px;
   padding: 10px;
-  background-color: black;
+  background-color: #0a0a0a;
   color: #0f0;
-  border: 1px solid #333;
+  border: 1px solid #2c3e50;
   border-radius: 4px;
   overflow-y: auto;
   font-family: 'Courier New', monospace;
