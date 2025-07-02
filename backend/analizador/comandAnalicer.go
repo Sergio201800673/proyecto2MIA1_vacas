@@ -1,48 +1,42 @@
 package analizador
 
 import (
-	"fmt"
-	"os"
+	diskmanager "api-mia1/diskManager"
 )
 
-func AnalizerCommand(command string, params string) {
+func AnalizerCommand(command string, params string) string {
 	switch command {
 	case "mkdisk":
-		fmt.Println("mkdisk")
+		return diskmanager.Mkdisk(AnaliceRegExp(params))
 	case "rmdisk":
-		fmt.Println("rmdisk")
+		return diskmanager.Rmdisk(AnaliceRegExp(params))
 	case "fdisk":
-		fmt.Println("fdisk")
+		return diskmanager.Fdisk(AnaliceRegExp(params))
 	case "mount":
-		fmt.Println("mount")
+		return diskmanager.Mount(AnaliceRegExp(params))
 	case "unmount":
-		fmt.Println("unmount")
+		return diskmanager.Unmount(AnaliceRegExp(params))
 	case "mkfs":
-		fmt.Println("mkfs")
+		return diskmanager.Mkfs(AnaliceRegExp(params))
 	case "login":
-		fmt.Println("login")
+		return diskmanager.Login(AnaliceRegExp(params))
 	case "logout":
-		fmt.Println("logout")
+		return diskmanager.Logout(AnaliceRegExp(params))
 	case "mkgrp":
-		fmt.Println("mkgrp")
+		return "mkgrp"
 	case "rmgrp":
-		fmt.Println("rmgrp")
+		return "rmgrp"
 	case "mkusr":
-		fmt.Println("mkusr")
+		return "mkusr"
 	case "rmusr":
-		fmt.Println("rmusr")
+		return "rmusr"
 	case "cat":
-		fmt.Println("cat")
-	case "pause":
-		fmt.Println("pause")
-	case "execute":
-		fmt.Println("execute")
+		return "cat"
+		/* 	case "pause":
+		return "pause" */
 	case "rep":
-		fmt.Println("rep")
-	case "exit":
-		fmt.Println("Salir del sistema")
-		os.Exit(0)
+		return "rep"
 	default:
-		fmt.Println("Comando no reconocido")
+		return ("Comando no reconocido: " + command)
 	}
 }

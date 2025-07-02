@@ -13,6 +13,8 @@ type Partition struct {
 	PartID          [4]byte
 }
 
-func (data Partition) PrintPartition() {
-	fmt.Println(fmt.Sprintf("Name: %s, type: %s, start: %d, size: %d, status: %s, id: %s|", string(data.PartName[:]), string(data.PartType[:]), data.PartStart, data.PartSize, string(data.PartStatus[:]), string(data.PartID[:])))
+func (data Partition) PrintPartition() string {
+	var output string = ""
+	output += fmt.Sprintf("Name: %s, type: %s, start: %d, size: %d, status: %s, id: %s|\n", string(data.PartName[:]), string(data.PartType[:]), data.PartStart, data.PartSize, string(data.PartStatus[:]), string(data.PartID[:]))
+	return output
 }

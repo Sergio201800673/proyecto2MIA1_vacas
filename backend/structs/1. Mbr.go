@@ -12,10 +12,13 @@ type MBR struct {
 	Partitions       [4]Partition
 }
 
-func (m MBR) PrintMBR() {
-	fmt.Println("---------- MBR ----------")
-	fmt.Println(fmt.Sprintf("CreationDate: %s, fit: %s, size: %d", string(m.MbrCreationDate[:]), string(m.DiskFit[:]), m.MbrSize))
+func (m MBR) PrintMBR(diskName string) string {
+
+	var output string = ""
+	output += "---------- MBR ----------\n"
+	output += fmt.Sprintf("Disco: "+diskName+"\nCreationDate: %s, fit: %s, size: %d\n", string(m.MbrCreationDate[:]), string(m.DiskFit[:]), m.MbrSize)
 	for i := 0; i < 4; i++ {
-		m.Partitions[i].PrintPartition()
+		output += m.Partitions[i].PrintPartition()
 	}
+	return output
 }

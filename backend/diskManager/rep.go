@@ -1,6 +1,7 @@
 package diskmanager
 
 import (
+	"api-mia1/structs"
 	"bytes"
 	"encoding/binary"
 	"fmt"
@@ -8,7 +9,6 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
-	"proyecto1/structs"
 	"strconv"
 	"strings"
 	"unsafe"

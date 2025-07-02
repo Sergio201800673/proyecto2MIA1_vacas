@@ -1,0 +1,32 @@
+mkdisk -size=3000 -unit=K
+mkdisk -size=3 -unit=M
+mkdisk -size=2 -unit=M
+
+rmdisk -driveletter=C
+
+fdisk -size=500 -driveletter=A -name=P1
+fdisk -size=600 -driveletter=A -name=P2
+fdisk -size=700 -driveletter=A -name=P3
+fdisk -type=E -driveletter=A -unit=K -name=P4 -size=800
+
+fdisk -type=E -driveletter=B -name=P3 -unit=K -size=200
+fdisk -delete=full -name="P3" -driveletter=B
+fdisk -add=100 -unit=K -driveletter=A -name=P1
+fdisk -add=-200 -unit=K -driveletter=A -name=”P1”
+
+mount -driveletter=A -name=P1
+mount -driveletter=A -name=P2
+mount -driveletter=A -name=P3
+mount -driveletter=A -name=P4
+
+*-------*
+unmount -id=A173
+unmount -id=A273
+unmount -id=A373
+unmount -id=A473
+*-------*
+
+mkfs -type=full -id=A173
+mkfs -type=full -id=A273
+mkfs -type=full -id=A373
+mkfs -type=full -id=A473
