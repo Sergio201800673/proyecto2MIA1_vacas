@@ -12,7 +12,7 @@ fdisk -type=E -driveletter=A -unit=K -name=P4 -size=800
 fdisk -type=E -driveletter=B -name=P3 -unit=K -size=200
 fdisk -delete=full -name="P3" -driveletter=B
 fdisk -add=100 -unit=K -driveletter=A -name=P1
-fdisk -add=-200 -unit=K -driveletter=A -name=”P1”
+fdisk -add=-200 -unit=K -driveletter=A -name=P1
 
 mount -driveletter=A -name=P1
 mount -driveletter=A -name=P2

@@ -41,7 +41,7 @@ func Mkfs(params [][]string) string {
 	}
 
 	if fstype == "" {
-		fstype = "2fs" // por defecto
+		fstype = "2fs"
 	}
 
 	output := formatearParticion(id, fstype)

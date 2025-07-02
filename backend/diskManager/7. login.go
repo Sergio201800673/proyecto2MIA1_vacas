@@ -4,12 +4,11 @@ import (
 	"api-mia1/session"
 	"api-mia1/structs"
 	"encoding/binary"
-	"fmt"
 	"os"
 	"strings"
 )
 
-func Login(params [][]string) {
+func Login(params [][]string) string {
 	var user, pass, id string
 
 	// Leer parámetros
@@ -26,14 +25,12 @@ func Login(params [][]string) {
 
 	// Validación básica
 	if user == "" || pass == "" || id == "" {
-		fmt.Println("❌ Error: los parámetros -user, -pass e -id son obligatorios.")
-		return
+		return "❌ Error: los parámetros -user, -pass e -id son obligatorios."
 	}
 
 	// Revisar si ya hay alguien logueado
 	if session.Sesion.LoggedIn {
-		fmt.Println("❌ Ya hay una sesión activa. Debe hacer logout primero.")
-		return
+		return "❌ Ya hay una sesión activa. Debe hacer logout primero."
 	}
 
 	// Abrir disco
@@ -42,8 +39,7 @@ func Login(params [][]string) {
 
 	file, err := os.Open(path)
 	if err != nil {
-		fmt.Println("❌ Error: disco no encontrado.")
-		return
+		return "❌ Error: disco no encontrado."
 	}
 	defer file.Close()
 
@@ -62,8 +58,7 @@ func Login(params [][]string) {
 		}
 	}
 	if !found {
-		fmt.Println("❌ Error: partición no encontrada.")
-		return
+		return "❌ Error: partición no encontrada."
 	}
 
 	// Leer el archivo users.txt
@@ -94,12 +89,10 @@ func Login(params [][]string) {
 						ID:       id,
 						LoggedIn: true,
 					}
-					fmt.Println("✅ Sesión iniciada exitosamente como", user, "en", id)
-					return
+					return "✅ Sesión iniciada exitosamente como " + user + " en " + id
 				}
 			}
 		}
 	}
-
-	fmt.Println("❌ Usuario o contraseña incorrectos.")
+	return "❌ Usuario o contraseña incorrectos."
 }

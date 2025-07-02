@@ -24,8 +24,10 @@ func main() {
 	r.HandleFunc("/confirm-delete", confirmDelete).Methods("POST")
 
 	c := cors.New(cors.Options{
-		AllowedOrigins: []string{"http://localhost:5173"},
-		// AllowedOrigins:   []string{"http://localhost:5173"},
+		AllowedOrigins: []string{
+			"http://localhost:5173",
+			"http://proyecto2-archivos-srmdb.s3-website.us-east-2.amazonaws.com",
+		},
 		AllowedMethods:   []string{"GET", "POST", "OPTIONS"},
 		AllowedHeaders:   []string{"Content-Type"},
 		AllowCredentials: true,

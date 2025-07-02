@@ -19,9 +19,9 @@ func AnalizerCommand(command string, params string) string {
 	case "mkfs":
 		return diskmanager.Mkfs(AnaliceRegExp(params))
 	case "login":
-		return diskmanager.Login(AnaliceRegExp(params))
+		return "login"
 	case "logout":
-		return diskmanager.Logout(AnaliceRegExp(params))
+		return "logout"
 	case "mkgrp":
 		return "mkgrp"
 	case "rmgrp":
