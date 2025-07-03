@@ -13,7 +13,7 @@ const Console = () => {
     try {
       // Enviar el código al backend en el puerto 5000
       // const response = await fetch('http://3.129.209.232:5000/execute', {
-      const response = await fetch('http://localhost:5000/execute', {
+      const response = await fetch('http://3.144.31.35:5000/execute', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json; charset=utf-8',
@@ -61,7 +61,7 @@ const Console = () => {
     if (confirmed) {
       try {
         // const response = await fetch('http://3.129.209.232:5000/confirm-delete', {
-        const response = await fetch('http://localhost:5000/confirm-delete', {
+        const response = await fetch('http://3.144.31.35:5000/confirm-delete', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json; charset=utf-8',

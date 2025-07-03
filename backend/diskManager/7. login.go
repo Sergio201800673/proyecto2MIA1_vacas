@@ -4,6 +4,7 @@ import (
 	"api-mia1/session"
 	"api-mia1/structs"
 	"encoding/binary"
+	"fmt"
 	"os"
 	"strings"
 )
@@ -61,28 +62,46 @@ func Login(params [][]string) string {
 		return "❌ Error: partición no encontrada."
 	}
 
-	// Leer el archivo users.txt
-	// Se encuentra en el primer bloque de datos (por simplicidad)
-	var contenido [64]byte
+	// Leer el superbloque
 	sb := structs.Superblock{}
 	file.Seek(int64(part.PartStart), 0)
 	binary.Read(file, binary.LittleEndian, &sb)
 
-	// Primer bloque con users.txt
-	file.Seek(int64(sb.SBlockStart), 0)
-	binary.Read(file, binary.LittleEndian, &contenido)
+	// Leer inodo de users.txt (usualmente inodo 1)
+	inodeUsers := structs.Inode{}
+	file.Seek(int64(sb.SInodeStart)+int64(binary.Size(structs.Inode{})), 0)
+	binary.Read(file, binary.LittleEndian, &inodeUsers)
 
-	texto := string(contenido[:])
+	// Leer todos los bloques asignados a users.txt
+	texto := ""
+	for _, b := range inodeUsers.IBlock {
+		if b == -1 {
+			continue
+		}
+		var bloque structs.FileBlock
+		file.Seek(int64(sb.SBlockStart)+int64(b)*64, 0)
+		binary.Read(file, binary.LittleEndian, &bloque)
+		texto += string(bloque.Content[:])
+	}
 	lineas := strings.Split(texto, "\n")
 
+	// Buscar usuario en users.txt
+	usuarioEncontrado := false
+
+	fmt.Println(lineas, "Archivo users.txt impreso desde login")
+
 	for _, linea := range lineas {
-		if strings.HasPrefix(linea, "1,U,") {
-			datos := strings.Split(linea, ",")
-			if len(datos) >= 5 {
-				userName := datos[2]
-				userGroup := datos[1]
-				userPass := datos[4]
-				if user == userName && pass == userPass {
+		campos := strings.Split(linea, ",")
+		if len(campos) == 5 && strings.TrimSpace(campos[1]) == "U" {
+			if strings.TrimSpace(campos[0]) == "0" {
+				continue // usuario eliminado, ignorar
+			}
+			userName := strings.TrimSpace(campos[3])
+			userPass := strings.TrimSpace(campos[4])
+			userGroup := strings.TrimSpace(campos[2])
+			if user == userName {
+				usuarioEncontrado = true
+				if pass == userPass {
 					session.Sesion = session.UsuarioActivo{
 						Username: user,
 						Group:    userGroup,
@@ -90,9 +109,14 @@ func Login(params [][]string) string {
 						LoggedIn: true,
 					}
 					return "✅ Sesión iniciada exitosamente como " + user + " en " + id
+				} else {
+					return "❌ Contraseña incorrecta."
 				}
 			}
 		}
 	}
-	return "❌ Usuario o contraseña incorrectos."
+	if usuarioEncontrado {
+		return "❌ Contraseña incorrecta."
+	}
+	return "❌ Usuario no existe."
 }

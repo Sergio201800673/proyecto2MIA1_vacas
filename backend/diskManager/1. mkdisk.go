@@ -10,8 +10,9 @@ import (
 	"time"
 )
 
-// var rutaBase = "/home/admin/sergio/backend/Discos/"
-var rutaBase = "/home/srmdb/Documentos/Archivos_V1S/Lab/MIA_P2_201800673_1VAC1S2025/backend/Discos/"
+var rutaBase = "/home/admin/sergio/backend/Discos/"
+
+// var rutaBase = "/home/srmdb/Documentos/Archivos_V1S/Lab/proyecto2MIA1_vacas/backend/Discos/"
 
 func Mkdisk(params [][]string) string {
 	var size int

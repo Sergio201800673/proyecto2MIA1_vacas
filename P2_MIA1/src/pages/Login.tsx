@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Login.css';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -7,6 +8,8 @@ const Login = () => {
     username: '',
     password: ''
   });
+  const [mensaje, setMensaje] = useState('');
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -16,11 +19,29 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Datos de login:', formData);
-    // Aquí iría la lógica para autenticar al usuario
-    alert(`Login enviado para ID: ${formData.id}, Usuario: ${formData.username}`);
+    setMensaje(''); // Limpiar mensaje anterior
+
+    try {
+      const response = await fetch('http://3.144.31.35:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: formData.id,
+          user: formData.username,
+          pass: formData.password
+        })
+      });
+      const data = await response.json();
+      setMensaje(data.mensaje);
+      if (data.mensaje && data.mensaje.startsWith('✅')) {
+        localStorage.setItem('loggedIn', 'true');
+        setTimeout(() => navigate('/seleccion-disco'), 1000);
+      }
+    } catch (error) {
+      setMensaje('Error de conexión con el servidor');
+    }
   };
 
   return (
@@ -69,6 +90,7 @@ const Login = () => {
         <button type="submit" className="login-button">
           Iniciar Sesión
         </button>
+        {mensaje && <div className="login-message">{mensaje}</div>}
       </form>
     </div>
   );

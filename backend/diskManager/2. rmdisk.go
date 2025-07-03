@@ -1,6 +1,7 @@
 package diskmanager
 
 import (
+	"fmt"
 	"os"
 	"strings"
 )
@@ -24,10 +25,11 @@ func Rmdisk(params [][]string) string {
 
 	filename := letra + ".dsk"
 	fullPath := rutaBase + filename
+	fmt.Println(fullPath)
 
 	// Verificar existencia
 	if _, err := os.Stat(fullPath); os.IsNotExist(err) {
-		return "❌ Error: el disco" + filename + " no existe."
+		return "❌ Error: el disco " + filename + " no existe."
 	}
 
 	// En lugar de pedir confirmación directamente, retornamos un mensaje especial
@@ -42,6 +44,6 @@ func ConfirmRmdisk(filename string, fullPath string) string {
 	if err != nil {
 		return "\n❌ Error al eliminar el archivo:" + err.Error()
 	} else {
-		return "\n✅ Disco" + filename + " eliminado exitosamente."
+		return "\n✅ Disco " + filename + " eliminado exitosamente."
 	}
 }

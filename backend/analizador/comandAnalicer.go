@@ -19,23 +19,19 @@ func AnalizerCommand(command string, params string) string {
 	case "mkfs":
 		return diskmanager.Mkfs(AnaliceRegExp(params))
 	case "login":
-		return "login"
+		return diskmanager.Login(AnaliceRegExp(params))
 	case "logout":
-		return "logout"
+		return diskmanager.Logout()
 	case "mkgrp":
-		return "mkgrp"
+		return diskmanager.Mkgrp(AnaliceRegExp(params))
 	case "rmgrp":
-		return "rmgrp"
+		return diskmanager.Rmgrp(AnaliceRegExp(params))
 	case "mkusr":
-		return "mkusr"
+		return diskmanager.Mkusr(AnaliceRegExp(params))
 	case "rmusr":
-		return "rmusr"
-	case "cat":
-		return "cat"
-		/* 	case "pause":
-		return "pause" */
-	case "rep":
-		return "rep"
+		return diskmanager.Rmusr(AnaliceRegExp(params))
+	case "mkfile":
+		return diskmanager.Mkfile(AnaliceRegExp(params))
 	default:
 		return ("Comando no reconocido: " + command)
 	}
